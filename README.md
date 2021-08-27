@@ -6,8 +6,20 @@
 在 `/etc/containers/registries.conf` 文件中指定镜像源。本文件使用 `ustc-edu-cn.mirror.aliyuncs.com` 作为例子。
 
 ```ini
+unqualified-search-registries = ["docker.io"]
+
+[[registry]]
+prefix = "docker.io"
+location = "ustc-edu-cn.mirror.aliyuncs.com"
+```
+
+注意，针对 docker.io 的镜像源，不能使用以下写法：
+
+```ini
 unqualified-search-registries = ["ustc-edu-cn.mirror.aliyuncs.com"]
 ```
+
+原因是 podman 在代码里做了特殊判断，只针对 `docker.io` 这个域名做如下判断：若镜像名是知名镜像（例如`podman pull nginx`），则自动在镜像名前面添加`library/`（例如 `podman pull library/nginx`）。判断是写死的，这个策略针对其他任何域名都不生效。
 
 ## 更换infra镜像
 
@@ -22,16 +34,3 @@ Podman 在创建 pod 时，默认会从 `k8s.gcr.io` 拉取 `pause` 的镜像。
 infra_command = "/pause"
 infra_image = "ustc-edu-cn.mirror.aliyuncs.com/aiotceo/pause:3.1"
 ```
-
-## 知名镜像使用注意事项
-
-对于所有不需要写用户名的知名镜像，例如 `nginx`, 不能再直接写 
-```sh
-podman pull nginx
-```
-而要改为
-```sh
-podman pull library/nginx
-```
-即，在知名镜像名称前面加 `library/`。
-这也会影响对应的 Dockerfile 文件。
