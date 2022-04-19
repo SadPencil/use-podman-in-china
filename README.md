@@ -34,3 +34,5 @@ Podman 在创建 pod 时，默认会从 `k8s.gcr.io` 拉取 `pause` 的镜像。
 infra_command = "/pause"
 infra_image = "ustc-edu-cn.mirror.aliyuncs.com/aiotceo/pause:3.1"
 ```
+
+Podman v4.0.0 起默认会在本地构建 `pause` 镜像。
