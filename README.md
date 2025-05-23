@@ -35,4 +35,4 @@ infra_command = "/pause"
 infra_image = "ustc-edu-cn.mirror.aliyuncs.com/aiotceo/pause:3.1"
 ```
 
-Podman v4.0.0 起默认会在本地构建 `pause` 镜像。
+Podman v4.0.0 起默认会在本地构建 `pause` 镜像，因此无需再做这个操作。
